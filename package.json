@@ -7,7 +7,7 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "vite",
-		"build": "vite build && cp -rf ./public/. ../hakidame/src/public/8/ && cp ./config.json ../hakidame/src/public/8/"
+		"build": "vite build && cp -rf ./public/. ../hakidame/src/public/9/ && cp ./config.json ../hakidame/src/public/9/"
 	},
 	"workspaces": [
 		"packages/*"

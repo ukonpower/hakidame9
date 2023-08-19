@@ -3,7 +3,7 @@ import * as GLP from 'glpower';
 import contentFrag from './shaders/content.fs';
 import { globalUniforms } from '~/ts/Globals';
 import { hotGet, hotUpdate } from '~/ts/libs/glpower_local/Framework/Utils/Hot';
-import { TurnTable } from '../../Components/TurnTable';
+import { TurnTable } from '~/ts/Scene/Components/TurnTable';
 
 export class Content extends GLP.Entity {
 

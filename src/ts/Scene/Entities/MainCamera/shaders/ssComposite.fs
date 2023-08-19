@@ -9,6 +9,7 @@ uniform sampler2D sampler1;
 uniform sampler2D sampler2;
 uniform sampler2D uLightShaftTexture;
 uniform sampler2D uSSRTexture;
+uniform sampler2D uSSAOTexture;
 
 uniform vec3 cameraPosition;
 uniform float cameraNear;
@@ -25,8 +26,12 @@ void main( void ) {
 	vec3 dir = normalize( cameraPosition - gCol0.xyz );
 	float f = fresnel( dot( dir, gCol1.xyz ) );
 
-	outColor = vec4( texture( sampler2, vUv ).xyz, 1.0 );
-	outColor += texture( uLightShaftTexture, vUv ) * 0.2;
-	outColor += texture( uSSRTexture, vUv ) * 0.3 * f;
+	// outColor = vec4( 1.0 );
+	outColor += vec4( texture( sampler2, vUv ).xyz, 1.0 );
+	// outColor += texture( uLightShaftTexture, vUv ) * 0.2;
+	// outColor += texture( uSSRTexture, vUv ) * 0.3 * f;
+	outColor *= 1.0 - texture( uSSAOTexture, vUv );
+	outColor = 1.0 - texture( uSSAOTexture, vUv );
+	// outColor = texture( uSSAOTexture, vUv );
 
 }
