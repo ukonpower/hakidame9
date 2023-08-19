@@ -31,8 +31,8 @@ vec2 D( vec3 p ) {
 	pp.y = abs( pp.y );
 	pp.y -= 0.05;
 
-	d = add( d, vec2( sdBox( pp, vec3( 0.2, 0.03, 0.03 ) ), 1.0 ) );
-	d = add( d, vec2( sdSphere( pp, 0.07 ), 1.0 ) );
+	d = add( d, vec2( sdBox( pp, vec3( 0.2, 0.02, 0.02 ) ), 1.0 ) );
+	d = add( d, vec2( sdSphere( pp, 0.05 ), 1.0 ) );
 
 	return d;
 

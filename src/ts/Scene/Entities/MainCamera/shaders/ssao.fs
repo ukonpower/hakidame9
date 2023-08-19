@@ -33,31 +33,16 @@ void main( void ) {
 
 	vec3 rayPos = texture( sampler0, vUv ).xyz;
 	vec4 rayViewPos = viewMatrix * vec4(rayPos, 1.0);
-	vec4 depthRayPos = projectionMatrixInverse * vec4( vUv * 2.0 - 1.0, texture( uDepthTexture, vUv ).x * 2.0 - 1.0, 1.0 );
-	depthRayPos.xyz /=depthRayPos.w;
-
-	if( abs(rayViewPos.z - depthRayPos.z) > 0.1 ) {
-
-		outColor = vec4( 0.0, 0.0, 0.0, 1.0 );
-		return;
-		
-	}
 
 	if( rayPos.x + rayPos.y + rayPos.z == 0.0 ) return;
 
 	vec3 normal = texture( sampler1, vUv ).xyz;
-	vec3 rayDir = reflect( normalize( ( cameraMatrix * projectionMatrixInverse * vec4( vUv * 2.0 - 1.0, 1.0, 1.0 ) ).xyz ), normal ) ;
-
-	vec3 col;
-
 	float occlusion = 0.0;
-	float cnt = 0.0;
 
 	for( int i = 0; i < SAMPLE; i ++ ) {
 
-		float seed = uTime + float( i ) * 0.1;
-
-		vec3 noise = vec3( random( vUv + sin( seed ) ), random( vUv - cos( seed )), random( vUv - cos( seed + 100.0 ) ) );
+		float seed = uTime + float( i ) / float( SAMPLE );
+		vec3 noise = vec3( random( vUv + fract( seed ) ), random( vUv - fract( seed )), random( vUv - fract( seed + 0.5 ) ) );
 	
 		float r = sqrt( noise.x );
 		float theta = TPI * noise.y;
@@ -65,19 +50,14 @@ void main( void ) {
 		vec3 tangent = normalize( cross( normal, abs( normal.x ) > 0.001 ? vec3( 0.0, 1.0, 0.0 ) : vec3( 1.0, 0.0, 0.0 ) ) );
 		vec3 binormal = cross( tangent, normal );
 		
-		vec3 sampleOffset = tangent * tDir.x + binormal * tDir.y + normal * tDir.z;
-		sampleOffset *= noise.z;
-
+		vec3 sampleOffset = tangent * tDir.x + binormal * tDir.y + normal * tDir.z * noise.z;
 		vec3 samplePos = rayPos + sampleOffset;
 
 		vec4 depthCoord = (projectionMatrix * viewMatrix * vec4(samplePos, 1.0 ) );
 		depthCoord.xy /= depthCoord.w;
-
-		if( abs( depthCoord.x ) > 1.0 || abs( depthCoord.y ) > 1.0 ) break;
-
 		depthCoord.xy = depthCoord.xy * 0.5 + 0.5;
-		float samplerDepth = texture(uDepthTexture, depthCoord.xy).x;
 
+		float samplerDepth = texture(uDepthTexture, depthCoord.xy).x;
 		vec4 sampleViewPos = viewMatrix * vec4( samplePos, 1.0 );
 		vec4 depthViewPos = projectionMatrixInverse * vec4( depthCoord.xy * 2.0 - 1.0, samplerDepth * 2.0 - 1.0, 1.0 );
 		depthViewPos.xyz /= depthViewPos.w;
@@ -91,7 +71,6 @@ void main( void ) {
 	}
 
 	occlusion /= float( SAMPLE );
-
 	outColor = vec4( mix( texture( uSSAOBackBuffer, vUv ).xyz, vec3( occlusion ), 0.1 ), 1.0 );
 
 }
