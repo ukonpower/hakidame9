@@ -28,10 +28,8 @@ void main( void ) {
 
 	// outColor = vec4( 1.0 );
 	outColor += vec4( texture( sampler2, vUv ).xyz, 1.0 );
-	// outColor += texture( uLightShaftTexture, vUv ) * 0.2;
-	// outColor += texture( uSSRTexture, vUv ) * 0.3 * f;
-	outColor *= 1.0 - texture( uSSAOTexture, vUv );
-	outColor = 1.0 - texture( uSSAOTexture, vUv );
-	// outColor = texture( uSSAOTexture, vUv );
+	outColor += texture( uLightShaftTexture, vUv ) * 0.2;
+	outColor += texture( uSSRTexture, vUv ) * 0.3 * f;
+	outColor *= max( 0.0, 1.0 - texture( uSSAOTexture, vUv ).x * 1.3 );
 
 }

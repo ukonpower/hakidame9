@@ -24,6 +24,7 @@ vec2 D( vec3 p ) {
 
 		pp.xy *= rotate( t * PI  / 4.0);
 		pp.xz *= rotate( t * 0.1);
+		pp.yz *= rotate( t * 1.2 );
 
 	}
 

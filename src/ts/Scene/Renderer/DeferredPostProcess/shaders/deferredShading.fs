@@ -57,6 +57,10 @@ void main( void ) {
 
 	float shadow;
 
+	// ambient
+
+	outColor += 0.3;
+
 	// direcitonalLight
 	
 	Light light;

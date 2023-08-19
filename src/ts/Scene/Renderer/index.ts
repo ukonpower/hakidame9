@@ -359,7 +359,7 @@ export class Renderer extends GLP.Entity {
 	private collectLight( lightEntity: GLP.Entity ) {
 
 		const lightComponent = lightEntity.getComponent<GLP.Light>( 'light' )!;
-		const type = lightComponent.type;
+		const type = lightComponent.lightType;
 
 		const info: LightInfo = {
 			position: new GLP.Vector( 0.0, 0.0, 0.0, 1.0 ).applyMatrix4( lightEntity.matrixWorld ),

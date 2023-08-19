@@ -12,6 +12,7 @@ import { EArea } from '../Entities/Effects/EArea';
 import { EGridLine } from '../Entities/Effects/EGridLine';
 import { Trails } from '../Entities/Trails';
 import { Content as Content9 } from '../Entities/Custom/Content9';
+import { Skybox } from '../Entities/Skybox';
 
 export const router = ( node: GLP.BLidgeNode ) => {
 
@@ -52,6 +53,10 @@ export const router = ( node: GLP.BLidgeNode ) => {
 	} else if ( node.class == 'EArea' ) {
 
 		return new EArea();
+
+	} else if ( node.class == "Skybox" ) {
+
+		return new Skybox();
 
 	}
 

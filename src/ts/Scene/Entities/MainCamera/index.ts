@@ -616,8 +616,8 @@ export class MainCamera extends GLP.Entity {
 		this.rtSSR1.setSize( resolutionHalf );
 		this.rtSSR2.setSize( resolutionHalf );
 
-		this.rtSSAO1.setSize( resolutionHalf );
-		this.rtSSAO2.setSize( resolutionHalf );
+		this.rtSSAO1.setSize( resolutionHalf.sub( 32 ) );
+		this.rtSSAO2.setSize( resolutionHalf.sub( 32 ) );
 
 		this.rtDofCoc.setSize( resolutionHalf );
 		this.rtDofBokeh.setSize( resolutionHalf );

@@ -8,7 +8,7 @@ import { Vector } from "../../../Math/Vector";
 export type LightType = 'directional' | 'spot'
 
 export interface LightParam extends Omit<CameraParam, 'renderTarget'> {
-	type: LightType;
+	lightType: LightType;
 	intensity?: number;
 	color?: Vector;
 	useShadowMap?: boolean;
@@ -20,7 +20,7 @@ export interface LightParam extends Omit<CameraParam, 'renderTarget'> {
 
 export class Light extends ShadowMapCamera {
 
-	public type: LightType;
+	public lightType: LightType;
 
 	// common
 
@@ -40,10 +40,18 @@ export class Light extends ShadowMapCamera {
 
 		super( { ...param, renderTarget: param.useShadowMap ? new GLPowerFrameBuffer( gl ).setTexture( [ new GLPowerTexture( gl ) ] ).setSize( new Vector( 512, 512 ) ) : null } );
 
-		this.type = param.type;
+		this.lightType = param.lightType;
+
+		if ( this.lightType == 'directional' ) this.cameraType = 'orthographic';
+		if ( this.lightType == 'spot' ) this.cameraType = 'perspective';
 
 		this.color = param.color ? param.color.clone() : new Vector( 1.0, 1.0, 1.0, 0.0 );
 		this.intensity = param.intensity ?? 1;
+
+		// directional
+
+		this.orthWidth = 10;
+		this.orthHeight = 10;
 
 		// spot
 

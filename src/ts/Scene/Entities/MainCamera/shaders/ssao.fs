@@ -25,7 +25,7 @@ in vec2 vUv;
 
 layout (location = 0) out vec4 outColor;
 
-#define SAMPLE 16.0
+#define SAMPLE 16
 
 void main( void ) {
 
@@ -50,11 +50,14 @@ void main( void ) {
 
 	vec3 col;
 
-	float occlude = 0.0;
+	float occlusion = 0.0;
+	float cnt = 0.0;
 
-	for( int i = 0; i < 16; i ++ ) {
+	for( int i = 0; i < SAMPLE; i ++ ) {
 
-		vec3 noise = vec3( random( vUv + sin( uTime ) ), random( vUv - cos( uTime )), random( vUv - cos( uTime ) ) );
+		float seed = uTime + float( i ) * 0.1;
+
+		vec3 noise = vec3( random( vUv + sin( seed ) ), random( vUv - cos( seed )), random( vUv - cos( seed + 100.0 ) ) );
 	
 		float r = sqrt( noise.x );
 		float theta = TPI * noise.y;
@@ -81,14 +84,14 @@ void main( void ) {
 
 		if( sampleViewPos.z < depthViewPos.z && sampleViewPos.z >= depthViewPos.z - 1.0 ) {
 
-			occlude++;
+			occlusion++;
 
 		}
 		
 	}
 
-	occlude /= 16.0;
+	occlusion /= float( SAMPLE );
 
-	outColor = vec4( mix( texture( uSSAOBackBuffer, vUv ).xyz, vec3( occlude ), 0.2 ), 1.0 );
+	outColor = vec4( mix( texture( uSSAOBackBuffer, vUv ).xyz, vec3( occlusion ), 0.1 ), 1.0 );
 
 }

@@ -4,6 +4,7 @@ import { FCurveGroup } from "../../Animation/FCurveGroup";
 import { FCurveKeyFrame, FCurveInterpolation } from "../../Animation/FCurveKeyFrame";
 import { IVector3, IVector2, Vector } from "../../Math/Vector";
 import { EventEmitter } from "../../utils/EventEmitter";
+import { log } from "console";
 
 export type BLidgeNodeType = 'empty' | 'cube' | 'sphere' | 'cylinder' | 'mesh' | 'camera' | 'plane' | 'light';
 
@@ -121,14 +122,14 @@ export type BLidgeKeyFrameParam = {
 
 // message
 
-export type BLidgeMessage = BLidgeSyncSceneMessage | BLidgeSyncFrameMessage
+export type BLidgeMessage = BLidgeSyncSceneMessage | BLidgeSyncTimelineMessage
 
 export type BLidgeSyncSceneMessage = {
 	type: "sync/scene",
     data: BLidgeSceneParam;
 }
 
-export type BLidgeSyncFrameMessage = {
+export type BLidgeSyncTimelineMessage = {
 	type: "sync/timeline";
 	data: BLidgeFrame;
 }

@@ -152,6 +152,7 @@ export class BLidger extends Component {
 
 				entity.addComponent( 'light', new Light( {
 					...lightParam,
+					lightType: lightParam.type,
 					color: new Vector().copy( lightParam.color ),
 					useShadowMap: lightParam.shadowMap,
 				} ) );
